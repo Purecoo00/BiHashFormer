@@ -1,0 +1,12 @@
+BiHashFormer
+Copyright (c) 2026 BiHashFormer authors.
+
+This project uses Apache-2.0-licensed components and interfaces from:
+- OpenMMLab MMDetection (https://github.com/open-mmlab/mmdetection).
+  Copyright (c) OpenMMLab. Train/test entrypoints are adapted from its code.
+- SparseFormer by Wenxi Li et al. (https://github.com/liwenxi/SparseFormer).
+  Repository organization and PANDA evaluation code are adapted from this work.
+- MMDetection's Swin Transformer implementation draws on Microsoft Swin Transformer
+  (https://github.com/microsoft/Swin-Transformer).
+
+The complete Apache License 2.0 is included in LICENSE.
