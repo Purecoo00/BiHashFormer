@@ -1,25 +1,30 @@
 import pytest
 import torch
 from bihash_former.models.backbones.bihashformer import (
-    BiHashFormer, HashAttention, HashMiner, PrototypeCodes,
-    binary_code_ste, pairwise_hamming)
+    BiHashFormer,
+    HashAttention,
+    HashMiner,
+    PrototypeCodes,
+    binary_code_ste,
+    pairwise_hamming,
+)
 from bihash_former.models.detectors.bihash_dino import foreground_ratio
 
 
 def test_binary_codes_and_separated_initial_prototypes():
-    x = torch.tensor([-1., 0., 1.], requires_grad=True)
+    x = torch.tensor([-1.0, 0.0, 1.0], requires_grad=True)
     y = binary_code_ste(x)
-    assert y.tolist() == [0., 0., 1.]
+    assert y.tolist() == [0.0, 0.0, 1.0]
     y.sum().backward()
-    assert x.grad.tolist() == [.5, .5, .5]
+    assert x.grad.tolist() == [0.5, 0.5, 0.5]
     p = PrototypeCodes(32, 3, 4)
     codes = p.bits()
-    assert codes.unique().tolist() == [0., 1.]
+    assert codes.unique().tolist() == [0.0, 1.0]
     distances = pairwise_hamming(codes, codes)
     assert distances[~torch.eye(3, dtype=torch.bool)].min() >= 9
 
 
-@pytest.mark.parametrize('bits', [16, 32, 64])
+@pytest.mark.parametrize("bits", [16, 32, 64])
 def test_packed_hamming_equals_explicit_xor(bits):
     torch.manual_seed(3)
     a = torch.randint(2, (2, 7, bits)).float().requires_grad_()
@@ -33,19 +38,24 @@ def test_packed_hamming_equals_explicit_xor(bits):
 
 def test_nearest_half_is_query_specific_and_respects_regions():
     attention = HashAttention(8, 2, window_size=2, num_bits=4)
-    bits = torch.tensor([[[0., 0., 0., 0.], [0., 0., 0., 1.],
-                          [1., 1., 1., 0.], [1., 1., 1., 1.]]])
-    (d, i), _ = attention.route(bits, bits, torch.ones(1, 4, dtype=torch.bool), torch.zeros(1, 4, dtype=torch.long))
+    bits = torch.tensor(
+        [[[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0], [1.0, 1.0, 1.0, 0.0], [1.0, 1.0, 1.0, 1.0]]]
+    )
+    (d, i), _ = attention.route(
+        bits, bits, torch.ones(1, 4, dtype=torch.bool), torch.zeros(1, 4, dtype=torch.long)
+    )
     assert i.shape == (1, 4, 2)
     assert set(i[0, 0].tolist()) == {0, 1}
     assert set(i[0, 3].tolist()) == {2, 3}
-    (_, i), _ = attention.route(bits, bits, torch.ones(1, 4, dtype=torch.bool), torch.tensor([[0, 0, 1, 1]]))
+    (_, i), _ = attention.route(
+        bits, bits, torch.ones(1, 4, dtype=torch.bool), torch.tensor([[0, 0, 1, 1]])
+    )
     assert all(set(i[0, q].tolist()) <= ({0, 1} if q < 2 else {2, 3}) for q in range(4))
 
 
 def test_full_selection_matches_dense_attention_and_train_eval_agree():
     torch.manual_seed(4)
-    a = HashAttention(8, 2, window_size=2, num_bits=4, kv_ratio=1., query_chunk_size=3)
+    a = HashAttention(8, 2, window_size=2, num_bits=4, kv_ratio=1.0, query_chunk_size=3)
     x = torch.randn(2, 4, 8)
     valid, regions = torch.ones(2, 4, dtype=torch.bool), torch.zeros(2, 4, dtype=torch.long)
     q, k, v = [t.reshape(2, 4, 2, 4).transpose(1, 2) for t in a.qkv(x).chunk(3, -1)]
@@ -76,7 +86,7 @@ def test_compensation_reuses_but_does_not_update_key_projector():
     a = HashAttention(8, 2, window_size=2, num_bits=4, radius=0)
     with torch.no_grad():
         a.key_projector.weight.zero_()
-        a.prototypes.latents.fill_(-1.)
+        a.prototypes.latents.fill_(-1.0)
     miner = HashMiner(8, 2)
     x = torch.randn(1, 4, 8, requires_grad=True)
     valid = torch.tensor([[True, True, False, True]])
@@ -90,23 +100,38 @@ def test_compensation_reuses_but_does_not_update_key_projector():
 
 
 def test_union_foreground_ratio_clips_and_does_not_double_count():
-    assert foreground_ratio(torch.tensor([[0., 0., 10., 10.], [5., 5., 15., 15.]]), (20, 20)) == pytest.approx(175 / 400)
+    assert foreground_ratio(
+        torch.tensor([[0.0, 0.0, 10.0, 10.0], [5.0, 5.0, 15.0, 15.0]]), (20, 20)
+    ) == pytest.approx(175 / 400)
     assert foreground_ratio(torch.empty(0, 4), (20, 20)) == 0
-    assert foreground_ratio(torch.tensor([[-5., -5., 30., 30.]]), (20, 20)) == 1
+    assert foreground_ratio(torch.tensor([[-5.0, -5.0, 30.0, 30.0]]), (20, 20)) == 1
 
 
 def test_odd_size_backbone_forward_backward_and_adaptive_selection():
     torch.manual_seed(8)
     torch.set_num_threads(2)
-    model = BiHashFormer(embed_dims=12, depths=(1, 1, 1, 1),
-                        num_heads=(3, 3, 6, 12), window_size=3,
-                        num_bits=8, radius=1, roi_pool_sizes=(2, 2, 1, 1),
-                        roi_hidden=8, drop_path_rate=0., with_cp=True)
+    model = BiHashFormer(
+        embed_dims=12,
+        depths=(1, 1, 1, 1),
+        num_heads=(3, 3, 6, 12),
+        window_size=3,
+        num_bits=8,
+        radius=1,
+        roi_pool_sizes=(2, 2, 1, 1),
+        roi_hidden=8,
+        drop_path_rate=0.0,
+        with_cp=True,
+    )
     model.train()
     x = torch.randn(2, 3, 65, 71)
     outputs = model(x)
-    assert [list(t.shape) for t in outputs] == [[2, 12, 17, 18], [2, 24, 9, 9], [2, 48, 5, 5], [2, 96, 3, 3]]
-    losses = model.auxiliary_losses(torch.tensor([.1, .8]))
+    assert [list(t.shape) for t in outputs] == [
+        [2, 12, 17, 18],
+        [2, 24, 9, 9],
+        [2, 48, 5, 5],
+        [2, 96, 3, 3],
+    ]
+    losses = model.auxiliary_losses(torch.tensor([0.1, 0.8]))
     total = sum(t.square().mean() for t in outputs) + sum(losses.values())
     total.backward()
     assert torch.isfinite(total)
