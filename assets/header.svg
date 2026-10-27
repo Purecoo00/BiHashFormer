@@ -41,6 +41,6 @@
   <circle cx="1404" cy="201" r="4"/>
 </g>
 <text x="1325" y="242" text-anchor="middle" font-size="18" fill="#D7DEE5">HashMiner</text>
-<text x="1304" y="274" text-anchor="middle" font-size="14" letter-spacing="1.2" fill="#A8B4C2">COMPRESSION + COMPENSATION</text>
+<text x="1325" y="274" text-anchor="middle" font-size="14" letter-spacing="1.2" fill="#A8B4C2">COMPRESSION + COMPENSATION</text>
 </g>
 </svg>
