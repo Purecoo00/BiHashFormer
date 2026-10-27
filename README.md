@@ -4,7 +4,7 @@
 
 <h2>Hash-Driven Dual-Branch Transformer for Efficient Object Detection in HRW Shots</h2>
 
-<p>Jingchen Huang<sup>*</sup>, Wenxi Li<sup>*</sup>, Chenyang Lyu,<br>Moran Liu, Haozhe Lin, Yuchen Guo<sup>†</sup></p>
+<p>Jingchen Huang<sup>*</sup>, Wenxi Li<sup>*</sup>, Chenyang Lyu<sup>*</sup>,<br>Moran Liu, Haozhe Lin, Yuchen Guo<sup>†</sup></p>
 <p><sub><sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding author</sub></p>
 
 <p>

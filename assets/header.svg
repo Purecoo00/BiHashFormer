@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 320" role="img" aria-labelledby="title desc">
 <title id="title">BiHashFormer — NeurIPS 2026</title>
-<desc id="desc">Hash-driven dual branches for efficient object detection in high-resolution, wide-field images.</desc>
+<desc id="desc">Compression and compensation paths split and merge for hash-driven object detection in high-resolution, wide-field images.</desc>
 <rect width="1600" height="320" rx="20" fill="#182331"/>
 <rect x="64" y="44" width="5" height="22" rx="2" fill="#DCAA7D"/>
 <g font-family="Arial, Helvetica, sans-serif">
@@ -9,7 +9,38 @@
 <text x="68" y="211" font-size="28" fill="#D7DEE5">Efficient object detection in HRW shots</text>
 <text x="68" y="267" font-size="18" letter-spacing="2" fill="#A8B4C2">HASH-DRIVEN DUAL BRANCHES</text>
 <path d="M1090 48 V267" stroke="#435166"/>
-<rect x="1175" y="48" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1224" y="48" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1273" y="48" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1292" y="73" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">01</text><rect x="1322" y="48" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1341" y="73" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">11</text><rect x="1371" y="48" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1420" y="48" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1175" y="97" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1224" y="97" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1273" y="97" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1292" y="122" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">00</text><rect x="1322" y="97" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1341" y="122" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">10</text><rect x="1371" y="97" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1420" y="97" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1175" y="146" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1224" y="146" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1273" y="146" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1292" y="171" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">01</text><rect x="1322" y="146" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1371" y="146" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1390" y="171" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">00</text><rect x="1420" y="146" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1175" y="195" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1224" y="195" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1273" y="195" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1322" y="195" width="38" height="38" rx="6" fill="#DCAA7D" stroke="#E7B88E"/><text x="1341" y="220" text-anchor="middle" font-size="15" fill="#182331" font-weight="700">10</text><rect x="1371" y="195" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/><rect x="1420" y="195" width="38" height="38" rx="6" fill="#263447" stroke="#435166"/>
+<!-- The two paths split at the input and merge after the branch updates. -->
+<g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M1133 151 H1160" stroke="#DCAA7D"/>
+  <path d="M1160 151 C1192 151 1179 101 1210 101 H1440 C1471 101 1458 151 1490 151" stroke="#DCAA7D"/>
+  <path d="M1160 151 C1192 151 1179 201 1210 201 H1440 C1471 201 1458 151 1490 151" stroke="#A8B4C2"/>
+  <path d="M1490 151 H1535 M1529 145 L1535 151 L1529 157" stroke="#DCAA7D"/>
+</g>
+<rect x="1117" y="143" width="16" height="16" rx="4" fill="#DCAA7D"/>
+<circle cx="1160" cy="151" r="5" fill="#182331" stroke="#DCAA7D" stroke-width="2"/>
+<circle cx="1490" cy="151" r="5" fill="#182331" stroke="#DCAA7D" stroke-width="2"/>
+<text x="1325" y="62" text-anchor="middle" font-size="18" fill="#D7DEE5">HashAttention</text>
+<g fill="#DCAA7D" stroke="#E7B88E">
+  <rect x="1228" y="82" width="36" height="38" rx="6"/>
+  <rect x="1307" y="82" width="36" height="38" rx="6"/>
+  <rect x="1386" y="82" width="36" height="38" rx="6"/>
+</g>
+<g text-anchor="middle" font-size="15" font-weight="700" fill="#182331">
+  <text x="1246" y="107">01</text>
+  <text x="1325" y="107">10</text>
+  <text x="1404" y="107">11</text>
+</g>
+<g fill="#263447" stroke="#A8B4C2" stroke-width="2">
+  <circle cx="1246" cy="201" r="16"/>
+  <circle cx="1325" cy="201" r="16"/>
+  <circle cx="1404" cy="201" r="16"/>
+</g>
+<g fill="#A8B4C2">
+  <circle cx="1246" cy="201" r="4"/>
+  <circle cx="1325" cy="201" r="4"/>
+  <circle cx="1404" cy="201" r="4"/>
+</g>
+<text x="1325" y="242" text-anchor="middle" font-size="18" fill="#D7DEE5">HashMiner</text>
 <text x="1304" y="274" text-anchor="middle" font-size="14" letter-spacing="1.2" fill="#A8B4C2">COMPRESSION + COMPENSATION</text>
 </g>
 </svg>
